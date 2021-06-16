@@ -1,94 +1,114 @@
-# Zadanie 2 - Veža v bludisku
+# Riadny termín \[60b], 3.6.2021 14:00
 B-OOP 2021
 
-Vašou úlohou je naprogramovať oknovú aplikáciu v jazyku Java s pomocou knižnice Swing. Používateľské rozhranie aplikácie má pozostávať z:
+Vytvorte oknovú aplikáciu, ktorá umožní používateľovi kresliť a presúvať zadaný tvar. Aplikácia bude mať nasledovnú funkcionalitu (40 bodov):
 
-* canvasu
-* bočného menu (jeho umiestnenie si zvoľte sami)
+1. Vytvorenie hlavného okna, ktoré bude obsahovať Ovládacie prvky a Kresliacu plochu \[5b].
+2. Kreslenie jedného tvaru: strom \[15b].
+3. Presúvanie už nakreslených tvarov \[15b].
+4. Voľba farby geometrického tvaru prostredníctvom [JButton](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JButton.html) \[4b].
+5. Zatvorenie aplikácie cez tlačidlo na zatvorenie aplikácie poskytnuté operačným systémom \[1b].
 
-Po spustení aplikácie vygenerujte pomocou algoritmu [náhodného prehľadávania do hĺbky](https://www.baeldung.com/cs/maze-generation#dfs-maze) bludisko a vykreslite ho na canvas.
-Mriežka v ktorej generujete bludisko nemôže byť menšia ako 11x11 políčok (vrátane stien), pričom bludisko musí byť obohnané stenou (žiadna cesta v bludisku sa nemôže dotýkať okraju okna).
+## Podrobný popis k bodu 1:
 
-Vo vygenerovanom bludisku zvoľte ľubovoľným spôsobom jeden začiatočný a jeden cieľový bod. Na začiatočný bod umiestnite hráčovu figúrku. Hráč sa môže v bludisku pohybovať 3 spôsobmi:
-* pomocou šípok na klávesnici, vždy o jedno políčko určeným smerom, pričom nemôže vsúpiť na políčko obsahujúce stenu.
-* pomocou myši. Po kliknutí na figúrku je ňou možné pohnúť ako vežou v šachu (t.j. ľubovoľný počet políčok zvyslo, alebo vodorovne). Cieľ cesty zvolí hráč druhým kliknutím myši, pričom je potrebné zvýrazniť políčka na ktoré sa hráč môže presunúť keď sa nad nimi nachádza myš. Pri pohybe takýmto spôsobom nie je možné preskočiť stenu bludiska.
-* pomocou tlačidiel na bočnom menu, predstavujúcich šípky. Pre tento pohyb platia rovnaké pravidlá, ako pre pohyb pomocou klávesnice
+Väčšinu plochy okna bude zaberať Kresliaca plocha. V dolnej časti okna sa budú nachádzať Ovládacie
+prvky. Ovládacie prvky budú tvoriť: [JButton](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JButton.html) “Strom”, [JButton](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JButton.html) “Presun”, [JButton](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JButton.html) “Ďalšia farba” a [JLabel](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JLabel.html). Každý z týchto prvkov musí zaberať štvrtinu celkového miesta vyhradeného pre ovládacie prvky.
 
-Keď hráč dosiahne cieľ, vygenerujte nové bludisko a hra začína od začiatku.
+## Podrobný popis k bodu 2:
 
-Bočné menu musí obsahovať:
-* počítadlo úspešne vyriešených bludísk
-* tlačidlo na reštartovanie hry, ktoré vyresetuje počítadlo a vygeneruje nové bludisko
-* tlačidlá reprezentujúce šípky, pomocou ktorých je možné pohybovať hráčovou figúrkov. Tieto tlačidlá musia byť rozmiestnené tak, ako sú rozmiestnené šípky na bežnej klávesnici.
+Stlačením príslušného tlačidla si vyberieme kreslenie STROMU [5b]. Po stlačení tlačidla myši (kliknutí) a následným ťahaním, sa na plátno vykresľuje geometrický tvar, a v Labeli (medzi ovládacími prvkami) sa nastaví text, ktorý bude hovoriť, že je aktívne **KRESLENIE**. Podľa aktuálnej polohy kurzora sa dynamicky mení šírka aj výška. Po pustení tlačidla myši sa ukončí kreslenie geometrického tvaru, t.j. jeho veľkosť sa zafixuje, potom sme pripravení kresliť ďalší tvar. Vykreslený tvar musí na kresliacej ploche zostať vykreslený aj po vykreslení ďalšieho tvaru. Takisto si každý tvar musí zachovávať svoju farbu (farba sa bude meniť Button-om, pozri bod 4). Strom musí mať pri kreslení zachované proporcie, ako je znázornené na obrázku.
 
+![image](./strom.svg)
 
+**Pozn.:** Pri kreslení (ťahaní myšou) zvoleného geometrického tvaru sa musí uvažovať, do akého smeru sa ťahá. Vtedy je potrebné domyslieť, ako sa budú prepočítavať koncové súradnice geometrického tvaru. Ak implementujete prepočítavanie koncového bodu v závislosti od všetkých smerov ťahania myšou (sprava hore - doľava dole, zľava dole - doprava hore, zľava hore - doprava dole a opačne) získate za tento bod plný počet [10b]. Ak neimplementujete všetky 4 alternatívy prepočítavania súradníc koncového bodu (ťahania myšou), získate maximálne polovicu zo stanovených bodov. (max 5b).
+
+## Podrobný popis k bodu 3:
+
+Stlačením príslušného tlačidla si vyberieme mód PRESÚVANIA a Labeli (medzi ovládacími prvkami) sa nastaví text, ktorý bude hovoriť, že je aktívne **PRESÚVANIE**. Po stlačení tlačidla myši (kliknutí) na nejaký už nakreslený tvar a následnom ťahaní sa zvolený tvar bude presúvať spolu s pohybom myši. Po pustení tlačidla myši sa presúvanie ukončí, t.j. presúvaný tvar zostane na svojom novom mieste. Presúvaný tvar sa vykresľuje iba spolu s myšou a nezostáva na svojej pôvodnej pozícii.
+
+**Pozn.:** Pri presúvaní (ťahaní myšou) zvoleného tvaru je potrebné brať do úvahy relatívnu polohy myši ku presúvanému tvaru. Za implementáciu presúvania akýmkoľvek spôsobom je možné získať maximálne 10b. Pokiaľ sa presúvanie uskutočňuje relatívne ku miestu kde bol tvar vybratý myšou (t.j. keď kliknem do stredu útvaru presúvam ho tak, že myš zostáva v strede) dá sa za presúvanie získať plný počet 15b.
+
+Na detekciu kliknutia myši na tvar môžete použiť napríklad metódu [contains](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/java/awt/Shape.html#contains(double,double)) triedy [Shape](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/java/awt/Shape.html)
+
+## Podrobný popis k bodu 4:
+
+Spomedzi ovládacích prvkov bude Button "Ďalšia farba" slúžiť na výber farby a Label na grafické znázornenie aktuálne  zvolenej farby. Program umožňuje zvoliť minimálne 3 farby v nejakom fixnom poradí (napr. červená > modrá > zelená). Tlačidlom sa aktívna farba zmení na nasledujúcu farbu v poradí. Pokiaľ sa v zozname farieb nachádzame na poslednom prvku, tak za ním nasleduje opäť prvá farba (t.j. červená > modrá > zelená > červená > ...). Práve kreslené geometrické tvary majú farbu zvolenú podľa aktuálnej farby. Farby môžu byť ľubovoľné, podmienkou ale je, aby boli viditeľné na kresliacej ploche. Po výbere farby sa zmení farba Label-u podľa aktuálnej farby. Zmena farby ovplyvňuje len nové geometrické tvary, už nakreslené geometrické tvary si musia zachovať svoju farbu!
 
 ## Hodnotenie
 
-Zadanie je hodnotené 15 bodmi. **Odovzdaný program musí byť skompilovateľný, inak je
-hodnotený 0 bodmi**. Skompilovateľnosť zadania kontroluje aj github pipeline. Hlavný dôraz v hodnotení sa kladie na objektový prístup a princípy OOP,
-okrem iného:
+Projekt obsahuje github pipeline, ktorá kontroluje skompilovateľnosť programu. **Pokiaľ program nie je skompilovateľný nebude hodnotený a skúška bude hodnotená 0b!**
 
-* vhodné pomenovanie tried, metód a premenných v jednotnom jazyku (názvy tried s veľkým počiatočným písmenom, názvy metód s malým),
-* vhodné použitie modifikátorov prístupu (public, private, poprípade protected) na obmedzenie prístupu k metódam a atribútom,
-* využitie dedenia a polymorfizmu,
-* použitie výnimiek na ošetrenie nedovoleného správania (nehádzať a nezachytávať všeobecnú triedu Exception),
-* nepoužívajte nested classy,
-* vo vašich triedach nevytvárajte statické metódy ani nekonštantné statické premenné (v zadaní nie sú potrebné),
-* v hlavnej triede (main) nevytvárajte žiadnu logiku, iba vytvorte nový objekt,
-* vo svojom riešení môžete použiť knižnicu lombok a jej anotácie. Potrebná dependencia je už pridaná v _pom.xml_ súbore.
+**Pokiaľ budete počas skúšky pristihnutý pri podvádzaní, alebo bude váš kód vykazovať príliš veľkú podobnosť s kódom iných študentov, bude skúška hodnotená 0 bodmi!**
 
-## Odovzdávanie
-Zadanie si naklonujte z repozitára zadania výhradne pomocou poskytnutej linky cez GitHub Classroom (pokiaľ si vygenerujete vlastný repozitár pomocou tlačidla "Use this template" z template repozitára, my váš repozitár neuvidíme a nebudeme ho hodnotiť!). Svoje vypracovanie nahrajte do pre vás vytvoreného repozitára pre toto zadanie pomocou programu Git (git commit + git push).
-Skontrolujte si, či sa váš repozitár nachádza pod skupinov **Interes-Group**, inak nemáme prístup ku vášmu repozitáru a zadanie sa nepovažuje za odovzdané. Vypracovanie môžete "pusho-vať" priebežne. Hodnotiť sa bude iba _master_ branch. Zadanie je nutné vypracovať do **23.4.2021 23:00**.
+Okrem funkcionality budú hodnotené aj princípy Objektovo orientovaného programovania (20 bodov), najmä:
 
-V projekte upravujte iba súbory v priečinku _src/main_ a jeho podpriečinkoch. Ostatné súbory je upravovať zakázané (predovšetkým súbory _pom.xml_ a súbory obsahujúce github pipeline-y).
+* správne využitie modifikátory prístupu, \[3b]
+* vhodné pomenovanie tried a metód, \[3b]
+* vhodné využitie dedenia a polymorfizmu, \[3b]
+* vhodné použitie výnimiek na ošetrenie nedovoleného správania (nehádzať a nezachytávať všeobecnú triedu Exception), \[3b]
+* nepoužitie vnorených tried (nested class), \[2b]
+* nepoužitie statických metód ani nekonštantných statických premenných, \[3b]
+* nepoužitie duplicitných kódov \[3b]
 
-Vo svojom github účte si nastavte svoje meno (settings > profile > name), aby bolo možné priradiť riešenie ku študentovy. **Pokiaľ nebude možné spárovať študenta s riešením je zadanie hodnotené 0 bodmi!**
+## Odovzdanie
 
-# Assignment 2 - Rook in a maze
+Vypracovanie skúšky odovzdajte cez Github classroom do miesta odovzdania nato určenom. Odovzdáva sa obsah celého projektu. Na vypracovanie písomky je vyhradený čas 3 hodiny.
+
+# Exam RT \[60pts], 3.6.2021 14:00
 B-OOP 2021
 
-Your task is to create a java window application with the Swing library. The user interface of the application must consist of:
-* canvas
-* side menu (you can choose the location of this side menu freely)
+Your task is to create a java window application. The application allows the user to draw and move a given shape. The application has the following functionality (40 points):
 
-When the application starts, generate a maze using the [randomized depth first search](https://www.baeldung.com/cs/maze-generation#dfs-maze) algorithm and draw it onto the canvas.
-The grid containing the maze must be at least 11x11 tiles large (including wall tiles). The entire maze must be surrounded by walls (no paths in the maze can touch the borders of the window).
+1. Creation of the main window, that will contain control elements and a drawing area \[5pts].
+2. Drawing of one shape: a tree \[15pts].
+3. Moving of the drawn shapes \[15pts].
+4. Selection of the drawing color through a [JButton](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JButton.html) \[4pts].
+5. Closing the application with the "close window" button provided by the operating system \[1pt].
 
-In the generated maze choose in any way a starting and a goal point. Place the player figure on the starting point. The player can move their figure in 3 ways:
-* by using the arrows keys on their keyboard. Always by one tile in the specified direction. They cannot enter a tile that contains a wall.
-* by using the mouse. When the player figure is clicked, it can be moved like a rook chess piece (i.e. any number of tiles in the horizontal, or vertical directions).
-The destination is chosen by a second mouse click. Tiles that can be moved to in this manner must be highlighted, when the mouse hovers over them. When moving in this manner, the player cannot jump over walls.
-* by using buttons on the side menu, that represent the arrow keys. The rules for moving in this manner are the same, as for the movement by the arrow keys on the keyboard.
+## Description for bullet point 1:
 
-When the player reaches the goal point, the application should generate a new maze and the game starts over.
+Most of the window area will be covered by the drawing area. THe bottom part of the window will contain the control elements. The control elements consist of: [JButton](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JButton.html) "Tree", [JButton](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JButton.html) "Move", [JButton](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JButton.html) "Next color" and a [JLabel](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/JLabel.html). Each of these elements should cover a fourth of the available space for control elements.
 
-The side menu must contain:
-* a counter of successfully completed mazes
-* a button that resets the counter and generates a new maze
-* buttons representing the arrow keys, which can be used to move the player. These buttons must be placed in the same way, they are placed on a regular keyboard.
+## Description for bullet point 2:
 
+By pressing the appropriate button we select drawing of the TREE [5pts]. After pressing the left mouse button and draging the mouse the selected shape will begin drawing on to the drawing area. The label (from the control elements) will have its text changed to **DRAWING**. Based on the current position of the mouse, the width and height of the drawn shape will be dynamically adjusted. After letting go of the left mouse button the drawing of the shape will complete, i.e. its position and size fill be fixed. The drawn shape must remain on the drawing area after drawing additional shapes. Each shape must maintain its color (the color will change based on a button, see bullet point 4). The tree shape must maintain the proportions depicted on the image bellow.
 
+![image](./strom.svg)
+
+**Note:** When drawing (dragging the mouse) a shape the position and direction of the mouse must be considered. You must consider how to calculate the position and size of the selected shape. If you implement the drawing of the shape into all four direction the mouse can be dragged in (top right to bottom left, bottom left to top right, top left to bottom right, bottom right to top left) you will receive the full [10pts]. If you do not implement all four possibilities you will be able to recive at most a half of the available points (max 5pts).
+
+## Description for bullet point 3:
+
+By pressing the appropriate button the **MOVING** mode will be selected and the appropriate text of the label (in the controll panel) will be set. After pressing the left mouse button on an already drawn shape and then dragging the mouse, the selected shape will move with the mouse. After letting go of the left mouse button the movement of the shape will finish i.e. the shape will remain fixed in its new place. THe dragged shape will be drawn only at the position of the mouse and will not remain at its original location.
+
+**Note:** When moving (dragging the mouse) of a selected shape you must consider the relative position of the mouse to the moved shape. For implementing the dragging in any way at most 10pts can be received. If the movement is performed relative to the click location of the mouse (i.e. when dragging from the center of the shape the mouse remains in the center of the shape during the movement) you will receive the full 15pts.
+
+You can use the [contains](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/java/awt/Shape.html#contains(double,double)) method of the [Shape](https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/java/awt/Shape.html) class to determine whether the mouse was pressed inside of a shape.
+
+## Description for bullet point 4:
+
+Among the control elements the Button "Next color" will serve the purpose of selecting the drawing color. The Lable will display the currently selected color. The program allows the selection of at least 3 different colors in some fixed order (e.g. red > blue > green). By pressing the button the selected color will change to the next color in the ordering. If the currently selected color is the last color in the ordering, the next color is the first color of the ordering (i.e. red > blue > green > red > ...). The currently drawn shapes have the currently selected color. You can choose the available colors freely, but they must be clearly visible on the drawing area. After selecting a color the color of the Label will change based on the currently selected color. The change of the color affect only new shapes, the shapes that are already drawn must maintain their color!
 
 ## Grading
-You can get 15 points for this assignment. **The program must be able to compile, otherwise 0 points are given for the assigment**.
-The github pipeline checks whether the program can be compiled. The main focus during grading is put on object-oriented approach and OOP principles used by the solution.
-Including, but not limited to:
-* appropriate naming of classes, methods and variables in a single language (class names starting with a capital letter, method names starting with a lowercase letter),
-* appropriate use of access modifiers (public, private, or protected) when restricting access to class methods and attributes,
-* the use of inheritance and polymorphism,
-* usage of exceptions when handling undesired behavior (do not catch or throw the instances of the generic Exception class),
-* don't use nested classes,
-* don't use static methods, or non-constant static variables (you don't need them to complete the assignment),
-* don't put any logic into the main method and its class. The main method should only be used to create a new object,
-* you can use the lombok library and its annotations in your solution. The neccessary dependency is already present in the _pom.xml_ file.
+
+The project contains a github pipeline, that checks whether it can be compiled or not. **If the program cannot be compiled it will not be graded and 0 points will be received for the exam!**.
+
+**If you are caught cheating during the exam, or if the source code handed in by you will have a suspicious amount of similarities with the code of other students 0 points will be received for the exam!**
+
+Appart from the functionality, the principles of Object-Oriented Programming will be graded as well (20 pts), pay close attention especially to:
+
+* correct usage of access modifiers, \[3pts]
+* appropriate naming of classes and methods, \[3pts]
+* appropriate usage of inheritance and polymorphism, \[3pts]
+* appropriate usage of exceptions when handling undesired behavior (do not catch or throw the instances of the generic Exception class), \[3pts]
+* don't use nested classes, \[2pts]
+* don't use static methods, or non-constant static variables, \[3pts]
+* don't have code duplication \[3pts]
+
+## Odovzdanie
+
+Vypracovanie skúšky odovzdajte cez Github classroom do miesta odovzdania nato určenom. Odovzdáva sa obsah celého projektu. Na vypracovanie písomky je vyhradený čas 3 hodiny.
 
 ## Handing in the assigment
-Clone the assignment from the repository created from this template by the provided link trough GitHub Classroom (if you create your own repository with the "use this template" button, we won't be able to see your repository and we won't be able to grade it!). Upload your solutions to your repository using the Git version control system (git commit + git push).
-Make sure, that your repository was created under the **Interes-Group** group, otherwise we won't be able to access your repository, and the assignment will not be graded.
-You can push commits to the repository while you work - you don't have to push everything at once. Only the code in the _master_ branch will be graded. You have until **23.4.2021 23:00** to complete the assignment.
 
-Only edit files in the _src/main_ folder or its sub-folders. You mustn't change any other files in the repository (especially the _pom.xml_ file, and the github pipeline files).
-
-You have to have your name set in your github account (settings > profile > name), so that we can match students with their assignments. **If we are unable to match a student with their assignment, the student will receive 0 points for the assignment!**
+Hand in the assignment into your Github classroom repository for this exam. Hand in the entire project. You have 3 hours to complete the exam.
