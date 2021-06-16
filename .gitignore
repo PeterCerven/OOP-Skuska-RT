@@ -1,0 +1,10 @@
+# Idea
+.idea/
+target
+B-OOP-2021-assignment-2.iml
+B-OOP-2021-exam-RT.iml
+
+# VS code
+.settings/
+.classpath
+.project
